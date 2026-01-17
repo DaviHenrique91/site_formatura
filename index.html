@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Convite de Formatura | Elegância & Conquista</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #0f3d2e;
+        --accent: #c9a24d;
+        --accent-light: #efe3b8;
+        --text-light: #f9fafb;
+        --text-dark: #1f2933;
+        --white: #F0EAD6;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background-color: var(--primary);
+        color: var(--text-light);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      .hero {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: linear-gradient(
+            rgba(15, 61, 46, 0.85),
+            rgba(15, 61, 46, 0.85)
+          ),
+          url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=2000");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        padding: 20px;
+      }
+
+      .hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3rem, 10vw, 6rem);
+        color: var(--accent);
+        margin-bottom: 2.0rem;
+        letter-spacing: 0.1rem;
+        text-transform: uppercase;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        margin-bottom: 2rem;
+        color: var(--accent-light);
+      }
+
+      .content-section {
+        background-color: var(--white);
+        color: var(--text-dark);
+        padding: 80px 20px;
+        text-align: center;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        position: relative;
+        padding-bottom: 15px;
+      }
+
+      h2::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 2px;
+        background-color: var(--accent);
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin: 40px 0;
+      }
+
+      .info-item h3 {
+        font-family: "Playfair Display", serif;
+        color: var(--accent);
+        margin-bottom: 10px;
+        font-size: 1.5rem;
+      }
+
+      .rsvp-card {
+        background-color: var(--primary);
+        color: var(--white);
+        padding: 50px;
+        border-radius: 4px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        margin-top: -60px;
+        position: relative;
+        z-index: 10;
+        border: 1px solid var(--accent);
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+        text-align: left;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        letter-spacing: 0.05em;
+        color: var(--accent-light);
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        border-radius: 0;
+        color: var(--white);
+        font-family: inherit;
+        transition: all 0.3s ease;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .radio-options {
+        display: flex;
+        gap: 30px;
+        margin-top: 10px;
+      }
+
+      .radio-options label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        color: var(--white);
+      }
+
+      .radio-options input {
+        width: auto;
+      }
+
+      button {
+        background-color: var(--accent);
+        color: var(--primary);
+        border: none;
+        padding: 18px 40px;
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        cursor: pointer;
+        width: 100%;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+      }
+
+      button:hover {
+        background-color: var(--white);
+        color: var(--primary);
+        transform: translateY(-2px);
+      }
+
+      button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      footer {
+        padding: 40px 20px;
+        text-align: center;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        color: var(--accent-light);
+        opacity: 0.7;
+      }
+
+      /* Mensagem de sucesso/erro */
+      .alert {
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        display: none;
+      }
+
+      .alert-success {
+        background-color: rgba(39, 174, 96, 0.2);
+        border: 1px solid #27ae60;
+        color: #2ecc71;
+      }
+
+      .alert-error {
+        background-color: rgba(231, 76, 60, 0.2);
+        border: 1px solid #e74c3c;
+        color: #e74c3c;
+      }
+
+      @media (max-width: 600px) {
+        .rsvp-card {
+          padding: 30px 20px;
+          margin-top: -40px;
+        }
+        .radio-options {
+          flex-direction: column;
+          gap: 15px;
+        }
+      }
+
+      a {
+        color: var(--accent);
+        font-weight: 500;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: var(--primary);
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <p>A Celebração da Vitória</p>
+      <h1>Formatura</h1>
+      <p>de laís vianna</p>
+    </header>
+
+    <main class="content-section">
+      <div class="container">
+        <h2>Os Detalhes</h2>
+        <p>
+          Com grande alegria, convidamos você para celebrar conosco em um jantar
+          comemorativo.
+        </p>
+
+        <div class="info-grid">
+          <div class="info-item">
+            <h3>Quando</h3>
+            <p>Sábado, 31 de Janeiro de 2026<br />às 21:30 horas</p>
+          </div>
+          <div class="info-item">
+            <h3>Onde</h3>
+            <p>Tv. Padre Prudêncio<br />(Baars Eventos), 726</p>
+            <a href="https://maps.app.goo.gl/fGj9JSH5118ns9KR7">Localização</a>
+          </div>
+          <div class="info-item">
+            <h3>Traje</h3>
+            <p>
+              Esporte Fino (Casual Chic)<br />Venha elegante e pronto para
+              curtir a noite!
+            </p>
+          </div>
+        </div>
+          <br>
+          <br>
+          <br>
+        <section class="rsvp-card">
+          <h2 style="color: var(--accent); border: none">CONFIRMAÇÃO</h2>
+          <p style="margin-bottom: 30px; color: var(--accent-light)">
+            Por favor, confirme sua presença até 20 de Janeiro.
+          </p>
+
+          <div id="alertSuccess" class="alert alert-success">
+            ✓ Presença confirmada com sucesso! Obrigado.
+          </div>
+          <div id="alertError" class="alert alert-error">
+            ✗ Erro ao enviar. Tente novamente.
+          </div>
+
+          <form id="rsvpForm">
+            <div class="form-group">
+              <label for="nome">NOME</label>
+              <input type="text" id="nome" name="nome" required />
+            </div>
+
+            <div class="form-group">
+              <label>VOCÊ COMPARECERÁ?</label>
+              <div class="radio-options">
+                <label
+                  ><input
+                    type="radio"
+                    name="confirmacao"
+                    value="true"
+                    required
+                  />
+                  SIM, ESTAREI LÁ</label
+                >
+                <label
+                  ><input type="radio" name="confirmacao" value="false" /> NÃO
+                  PODEREI IR</label
+                >
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="mensagem">MENSAGEM PARA A FORMANDA</label>
+              <textarea
+                id="mensagem"
+                name="mensagem"
+                rows="4"
+                minlength="10"
+                maxlength="200"
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit">Confirmar Presença</button>
+          </form>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      &copy; 2026 CONVITE DIGITAL DE FORMATURA. TODOS OS DIREITOS RESERVADOS.
+    </footer>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+      const SUPABASE_URL = "https://bbgqamqzfepqqpzrater.supabase.co";
+      const SUPABASE_ANON_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJiZ3FhbXF6ZmVwcXFwenJhdGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1Mjc2NDksImV4cCI6MjA4NDEwMzY0OX0.2NpV3Mce-hgWRtyE0p37n-3MM65EShYiTu28R76Sexg";
+
+      // Inicializa o cliente Supabase
+      const { createClient } = supabase;
+      const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      // Elementos do DOM
+      const form = document.getElementById("rsvpForm");
+      const alertSuccess = document.getElementById("alertSuccess");
+      const alertError = document.getElementById("alertError");
+
+      // Esconde alertas
+      function hideAlerts() {
+        alertSuccess.style.display = "none";
+        alertError.style.display = "none";
+      }
+
+      // Mostra alerta de sucesso
+      function showSuccess(nome) {
+        alertSuccess.innerHTML = `✓ Obrigado, <strong>${nome}</strong>! Sua resposta foi registrada com sucesso.`;
+        alertSuccess.style.display = "block";
+        alertError.style.display = "none";
+      }
+
+      // Mostra alerta de erro
+      function showError(message) {
+        alertError.innerHTML = `✗ ${message}`;
+        alertError.style.display = "block";
+        alertSuccess.style.display = "none";
+      }
+
+      // Envio do formulário
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        hideAlerts();
+
+        const button = this.querySelector("button");
+        const originalText = button.innerText;
+
+        const nome = document.getElementById("nome").value.trim();
+        const confirmacaoValue = document.querySelector(
+          'input[name="confirmacao"]:checked'
+        ).value;
+        const confirmacao = confirmacaoValue === "true";
+        const mensagem = document.getElementById("mensagem").value.trim();
+
+        button.disabled = true;
+        button.innerText = "ENVIANDO...";
+
+        try {
+          const { data, error } = await supabaseClient
+            .from("convidados")
+            .insert([
+              {
+                nome: nome,
+                confirmacao: confirmacao,
+                mensagem: mensagem,
+              },
+            ]);
+
+          if (error) {
+            throw error;
+          }
+
+          showSuccess(nome);
+          form.reset();
+        } catch (error) {
+          console.error("Erro:", error);
+          showError("Erro ao enviar. Tente novamente.");
+        } finally {
+          button.disabled = false;
+          button.innerText = originalText;
+        }
+      });
+    </script>
+  </body>
+</html>
