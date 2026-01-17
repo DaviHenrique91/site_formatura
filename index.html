@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
@@ -17,7 +17,7 @@
         --accent-light: #efe3b8;
         --text-light: #f9fafb;
         --text-dark: #1f2933;
-        --white: #F0EAD6;
+        --white: #f0ead6;
       }
 
       * {
@@ -41,10 +41,8 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        background: linear-gradient(
-            rgba(15, 61, 46, 0.85),
-            rgba(15, 61, 46, 0.85)
-          ),
+        background:
+          linear-gradient(rgba(15, 61, 46, 0.85), rgba(15, 61, 46, 0.85)),
           url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=2000");
         background-size: cover;
         background-position: center;
@@ -56,7 +54,7 @@
         font-family: "Playfair Display", serif;
         font-size: clamp(3rem, 10vw, 6rem);
         color: var(--accent);
-        margin-bottom: 2.0rem;
+        margin-bottom: 2rem;
         letter-spacing: 0.1rem;
         text-transform: uppercase;
       }
@@ -289,9 +287,9 @@
             </p>
           </div>
         </div>
-          <br>
-          <br>
-          <br>
+        <br />
+        <br />
+        <br />
         <section class="rsvp-card">
           <h2 style="color: var(--accent); border: none">CONFIRMAÇÃO</h2>
           <p style="margin-bottom: 30px; color: var(--accent-light)">
@@ -352,44 +350,30 @@
       &copy; 2026 CONVITE DIGITAL DE FORMATURA. TODOS OS DIREITOS RESERVADOS.
     </footer>
 
-    <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
+      // Supabase
       const SUPABASE_URL = "https://bbgqamqzfepqqpzrater.supabase.co";
       const SUPABASE_ANON_KEY =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJiZ3FhbXF6ZmVwcXFwenJhdGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1Mjc2NDksImV4cCI6MjA4NDEwMzY0OX0.2NpV3Mce-hgWRtyE0p37n-3MM65EShYiTu28R76Sexg";
 
-      // Inicializa o cliente Supabase
+      // Google Sheets
+      const GOOGLE_SHEETS_URL =
+        "https://script.google.com/macros/s/AKfycbyFlMNiLMvwZ_3NAYOF2_smK6ZtbYNF3tad-eUybI5No37JXUvM1nd6nOvsn4LVrA2HSA/exec";
+
       const { createClient } = supabase;
       const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-      // Elementos do DOM
       const form = document.getElementById("rsvpForm");
       const alertSuccess = document.getElementById("alertSuccess");
       const alertError = document.getElementById("alertError");
 
-      // Esconde alertas
       function hideAlerts() {
         alertSuccess.style.display = "none";
         alertError.style.display = "none";
       }
 
-      // Mostra alerta de sucesso
-      function showSuccess(nome) {
-        alertSuccess.innerHTML = `✓ Obrigado, <strong>${nome}</strong>! Sua resposta foi registrada com sucesso.`;
-        alertSuccess.style.display = "block";
-        alertError.style.display = "none";
-      }
-
-      // Mostra alerta de erro
-      function showError(message) {
-        alertError.innerHTML = `✗ ${message}`;
-        alertError.style.display = "block";
-        alertSuccess.style.display = "none";
-      }
-
-      // Envio do formulário
       form.addEventListener("submit", async function (e) {
         e.preventDefault();
         hideAlerts();
@@ -399,7 +383,7 @@
 
         const nome = document.getElementById("nome").value.trim();
         const confirmacaoValue = document.querySelector(
-          'input[name="confirmacao"]:checked'
+          'input[name="confirmacao"]:checked',
         ).value;
         const confirmacao = confirmacaoValue === "true";
         const mensagem = document.getElementById("mensagem").value.trim();
@@ -408,25 +392,32 @@
         button.innerText = "ENVIANDO...";
 
         try {
-          const { data, error } = await supabaseClient
+          // Envia para o Supabase
+          const { error: supabaseError } = await supabaseClient
             .from("convidados")
-            .insert([
-              {
-                nome: nome,
-                confirmacao: confirmacao,
-                mensagem: mensagem,
-              },
-            ]);
+            .insert([{ nome, confirmacao, mensagem }]);
 
-          if (error) {
-            throw error;
-          }
+          if (supabaseError) throw supabaseError;
 
-          showSuccess(nome);
+          // Envia para o Google Sheets
+          fetch(GOOGLE_SHEETS_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ nome, confirmacao, mensagem }),
+          });
+
+          alertSuccess.innerHTML = `✓ Obrigado, <strong>${nome}</strong>! Sua resposta foi registrada.`;
+          alertSuccess.style.display = "block";
           form.reset();
+
+          alertSuccess.scrollIntoView({ behavior: "smooth", block: "center" });
         } catch (error) {
           console.error("Erro:", error);
-          showError("Erro ao enviar. Tente novamente.");
+          alertError.innerHTML = `✗ Erro ao enviar: ${error.message}`;
+          alertError.style.display = "block";
         } finally {
           button.disabled = false;
           button.innerText = originalText;
